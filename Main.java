@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-
 import java.util.List;
-
 import java.util.Scanner;
 
 public class Main {
@@ -18,40 +16,87 @@ public class Main {
         banco.add(new Pessoa(5, "Nycollas", 17));
 
         Scanner sc = new Scanner(System.in);
+        int nextId = 6; // próximo ID disponível
 
         while (true) {
-            System.out.print("\nDigite o NOME da pessoa (ou 'sair' para encerrar): ");
-            String nomeBusca = sc.nextLine();
+            System.out.println("\n--- MENU ---");
+            System.out.println("1 - Buscar pessoa");
+            System.out.println("2 - Adicionar nova pessoa");
+            System.out.println("3 - Listar banco de dados");
+            System.out.println("4 - Listar cache");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha uma opção: ");
+            String opcao = sc.nextLine();
 
-            if (nomeBusca.equalsIgnoreCase("sair")) break;
+            if (opcao.equals("0")) break;
 
-            Pessoa encontrada = null;
+            switch (opcao) {
+                case "1":
+                    System.out.print("Digite o NOME da pessoa para buscar: ");
+                    String nomeBusca = sc.nextLine();
 
-            for (Pessoa p : cache) {
-                if (p.getNome().equalsIgnoreCase(nomeBusca)) {
-                    encontrada = p;
-                    System.out.println("Pessoa encontrada no cache: " + encontrada);
-                    break;
-                }
-            }
+                    Pessoa encontrada = null;
 
-            if (encontrada == null) {
-                for (Pessoa p : banco) {
-                    if (p.getNome().equalsIgnoreCase(nomeBusca)) {
-                        encontrada = p;
-                        System.out.println("Pessoa buscada no banco e adicionada ao cache: " + encontrada);
-
-                        if (cache.size() == 10) {
-                            cache.remove(0);
+                    // 🔍 Busca no cache
+                    for (Pessoa p : cache) {
+                        if (p.getNome().equalsIgnoreCase(nomeBusca)) {
+                            encontrada = p;
+                            System.out.println("Pessoa encontrada no cache: " + encontrada);
+                            break;
                         }
-                        cache.add(encontrada);
-                        break;
                     }
-                }
-            }
 
-            if (encontrada == null) {
-                System.out.println("Pessoa com nome '" + nomeBusca + "' não encontrada.");
+                    // 🔍 Se não encontrou no cache, busca no banco
+                    if (encontrada == null) {
+                        for (Pessoa p : banco) {
+                            if (p.getNome().equalsIgnoreCase(nomeBusca)) {
+                                encontrada = p;
+                                System.out.println("Pessoa buscada no banco e adicionada ao cache: " + encontrada);
+
+                                // ⚡ Se cache cheio, remove a mais antiga
+                                if (cache.size() == 10) {
+                                    System.out.println("Cache cheio! Removendo: " + cache.get(0));
+                                    cache.remove(0);
+                                }
+
+                                cache.add(encontrada);
+                                break;
+                            }
+                        }
+                    }
+
+                    if (encontrada == null) {
+                        System.out.println("Pessoa com nome '" + nomeBusca + "' não encontrada.");
+                    }
+                    break;
+
+                case "2":
+                    System.out.print("Digite o nome da nova pessoa: ");
+                    String novoNome = sc.nextLine();
+                    System.out.print("Digite a idade da nova pessoa: ");
+                    int novaIdade = Integer.parseInt(sc.nextLine());
+
+                    Pessoa novaPessoa = new Pessoa(nextId++, novoNome, novaIdade);
+                    banco.add(novaPessoa);
+                    System.out.println("Pessoa adicionada com sucesso: " + novaPessoa);
+                    break;
+
+                case "3":
+                    System.out.println("\n--- Banco de Dados ---");
+                    for (Pessoa p : banco) {
+                        System.out.println(p);
+                    }
+                    break;
+
+                case "4":
+                    System.out.println("\n--- Cache ---");
+                    for (Pessoa p : cache) {
+                        System.out.println(p);
+                    }
+                    break;
+
+                default:
+                    System.out.println("Opção inválida!");
             }
         }
 
