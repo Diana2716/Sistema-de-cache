@@ -88,13 +88,6 @@ public class Main {
                     }
                     break;
 
-                case "4":
-                    System.out.println("\n--- Cache ---");
-                    for (Pessoa p : cache) {
-                        System.out.println(p);
-                    }
-                    break;
-
                 default:
                     System.out.println("Opção inválida!");
             }
@@ -102,4 +95,5 @@ public class Main {
 
         sc.close();
     }
+
 }
