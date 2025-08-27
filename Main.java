@@ -23,7 +23,6 @@ public class Main {
             System.out.println("1 - Buscar pessoa");
             System.out.println("2 - Adicionar nova pessoa");
             System.out.println("3 - Listar banco de dados");
-            System.out.println("4 - Listar cache");
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
             String opcao = sc.nextLine();
