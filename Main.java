@@ -16,7 +16,7 @@ public class Main {
         banco.add(new Pessoa(5, "Nycollas", 17));
 
         Scanner sc = new Scanner(System.in);
-        int nextId = 6; // próximo ID disponível
+        int nextId = 6; 
 
         while (true) {
             System.out.println("\n--- MENU ---");
@@ -40,7 +40,6 @@ public class Main {
 
                     Pessoa encontrada = null;
 
-                    // 🔍 PASSO 1: Buscar no cache
                     for (Pessoa p : cache) {
                         if (p.getNome().equalsIgnoreCase(nomeBusca)) {
                             encontrada = p;
@@ -49,16 +48,14 @@ public class Main {
                         }
                     }
 
-                    // 🔍 PASSO 2: Se não achou no cache, buscar no banco
                     if (encontrada == null) {
                         for (Pessoa p : banco) {
                             if (p.getNome().equalsIgnoreCase(nomeBusca)) {
                                 encontrada = p;
 
-                                // ⚡ Regras do cache
                                 if (cache.size() == 10) {
-                                    System.out.println("⚠ Cache cheio! Removendo a pessoa mais antiga: " + cache.get(0));
-                                    cache.remove(0); // remove a mais antiga
+                                    System.out.println("Cache cheio! Removendo a pessoa mais antiga: " + cache.get(0));
+                                    cache.remove(0);
                                 }
 
                                 cache.add(encontrada);
@@ -68,7 +65,6 @@ public class Main {
                         }
                     }
 
-                    // 🔍 PASSO 3: Se não achou em lugar nenhum
                     if (encontrada == null) {
                         System.out.println("Pessoa com nome '" + nomeBusca + "' não encontrada.");
                     }
@@ -110,4 +106,5 @@ public class Main {
 
         sc.close();
     }
+
 }
