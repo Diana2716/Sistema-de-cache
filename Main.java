@@ -23,11 +23,15 @@ public class Main {
             System.out.println("1 - Buscar pessoa");
             System.out.println("2 - Adicionar nova pessoa");
             System.out.println("3 - Listar banco de dados");
+            System.out.println("4 - Listar cache");
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
             String opcao = sc.nextLine();
 
-            if (opcao.equals("0")) break;
+            if (opcao.equals("0")) {
+                System.out.println("Encerrando o programa...");
+                break;
+            }
 
             switch (opcao) {
                 case "1":
@@ -36,7 +40,7 @@ public class Main {
 
                     Pessoa encontrada = null;
 
-                    // 🔍 Busca no cache
+                    // 🔍 PASSO 1: Buscar no cache
                     for (Pessoa p : cache) {
                         if (p.getNome().equalsIgnoreCase(nomeBusca)) {
                             encontrada = p;
@@ -45,25 +49,26 @@ public class Main {
                         }
                     }
 
-                    // 🔍 Se não encontrou no cache, busca no banco
+                    // 🔍 PASSO 2: Se não achou no cache, buscar no banco
                     if (encontrada == null) {
                         for (Pessoa p : banco) {
                             if (p.getNome().equalsIgnoreCase(nomeBusca)) {
                                 encontrada = p;
-                                System.out.println("Pessoa buscada no banco e adicionada ao cache: " + encontrada);
 
-                                // ⚡ Se cache cheio, remove a mais antiga
+                                // ⚡ Regras do cache
                                 if (cache.size() == 10) {
-                                    System.out.println("Cache cheio! Removendo: " + cache.get(0));
-                                    cache.remove(0);
+                                    System.out.println("⚠ Cache cheio! Removendo a pessoa mais antiga: " + cache.get(0));
+                                    cache.remove(0); // remove a mais antiga
                                 }
 
                                 cache.add(encontrada);
+                                System.out.println("Pessoa buscada no banco e adicionada ao cache: " + encontrada);
                                 break;
                             }
                         }
                     }
 
+                    // 🔍 PASSO 3: Se não achou em lugar nenhum
                     if (encontrada == null) {
                         System.out.println("Pessoa com nome '" + nomeBusca + "' não encontrada.");
                     }
@@ -87,6 +92,17 @@ public class Main {
                     }
                     break;
 
+                case "4":
+                    System.out.println("\n--- Cache (máx 10 pessoas) ---");
+                    if (cache.isEmpty()) {
+                        System.out.println("Cache vazio.");
+                    } else {
+                        for (Pessoa p : cache) {
+                            System.out.println(p);
+                        }
+                    }
+                    break;
+
                 default:
                     System.out.println("Opção inválida!");
             }
@@ -94,5 +110,4 @@ public class Main {
 
         sc.close();
     }
-
 }
